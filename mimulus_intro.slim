@@ -19,7 +19,7 @@ initialize() {
 	initializeTreeSeq();
 
 	initializeMutationRate(mu);
-	initializeMutationType("m1", 0.5, "g", (deff/N), 2); //anc mutation beneficial
+	initializeMutationType("m1", 0.5, "g", (-deff/N), 2); //anc mutation beneficial
 	initializeMutationType("m2", 0.5, "f", 0); //BDM incompat pop2 to pop1
 	initializeMutationType("m3", 0.5, "f", 0); //BDM incompat pop1 to pop2
 	initializeRecombinationRate(r, L-1);
@@ -52,8 +52,8 @@ initialize() {
 
 s0 100 {
 	sim.addSubpopSplit(2, N, 1);
-	m2.setDistribution("g", (deff/N), 2); //updating DFE after split
-	m3.setDistribution("g", (deff/N), 2);
+	m2.setDistribution("g", (-deff/N), 2); //updating DFE after split
+	m3.setDistribution("g", (-deff/N), 2);
 	g2.setMutationFractions(c(m1,m2,m3), c(8,1,1)); //adjust mutation fractions so at any time pop1 and pop2 have only 1/10 of all mutations being neutral, 1/10 neutral in one pop but del in the other and 8/10 being deleterious irrespective of pops (overall del mut = 0.9 * mu)
 	p1.setMigrationRates(p2, m/N);
 	p2.setMigrationRates(p1, m/N);
