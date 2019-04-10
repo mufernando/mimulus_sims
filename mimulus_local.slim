@@ -1,0 +1,76 @@
+// Population of size N, burn-in for 10N generations, with mutations of mean(s) = deff, non neutral mutation rate = 1/3 * mu. Pop splits at 10N, when some (1/3*mu) mutations become mean(s) = deff for one pop but not for the other, and vice-versainitialize() {
+	/*
+	defineConstant("SIM", "teste");
+	//defineConstant("path","/Users/murillo/Drive/phd/w19/rotation/trees/");
+	defineConstant("N", 1000);
+	defineConstant("mu", 0.1e-9);
+	defineConstant("r", 2e-8);
+	defineConstant("deff", 1);
+	defineConstant("L", 21e6); // total chromosome length
+	defineConstant("L0", 7e6); // between genes
+	defineConstant("L1", 7e6); // gene length
+	defineConstant("m", 0.1); // migration
+	defineConstant("RAND", 123); // random identifier
+	*/
+
+	defineConstant("path","/tmp/");
+
+	initializeTreeSeq();
+
+	initializeMutationRate(mu); //at any time, 1/3 of mutations are going to be beneficial in that pop, therefore beneficial mutation rate = mu*1/3
+	initializeMutationType("m1", 0.5, "g", (deff/N), 2); //anc mutation beneficial
+	initializeMutationType("m2", 0.5, "f", 0); //mutation beneficial in pop1 after split but not pop2
+	initializeMutationType("m3", 0.5, "f", 0); //mutation beneficial in pop2 after split but not pop1
+	initializeRecombinationRate(r, L-1);
+	initializeGenomicElementType("g2", c(m1,m2,m3), c(1.0,1.0,1.0));
+	if (mu > 0) {
+		for (start in seq(from=0, to=L, by=(L0+L1)))
+			initializeGenomicElement(g2, start, (start+L1)-1);
+	} else {
+		initializeGenomicElement(g2, 0, L-1);
+	}
+}
+
+// create a population of N individuals
+//schedule sampling times depending on N
+1 {
+	sim.addSubpop("p1", N);
+	sim.rescheduleScriptBlock(s0, 10*N, 10*N); // subpopsplit
+	t = c(seq(0,2,by=0.4),seq(4,10,by=2));
+	t = (t*N)+(10*N);
+	t[0] = t[0]+1;
+	sim.rescheduleScriptBlock(s1, generations=asInteger(t));
+	//sim.rescheduleScriptBlock(s2, 1, 10*N);
+	//sim.rescheduleScriptBlock(s3, 1, 10*N);
+	sim.rescheduleScriptBlock(s4, 10*N);
+	sim.rescheduleScriptBlock(s5, 10*N);
+}
+
+// burn in for 10N gen
+// split into two subpops with N
+
+s0 100 {
+	sim.addSubpopSplit(2, N, 1);
+	m1.setDistribution("f", 0);
+	m2.setDistribution("g", (deff/N), 2); //updating DFE after split
+	m3.setDistribution("g", (deff/N), 2);
+	for (mut in c(sim.mutationsOfType(m2), sim.mutationsOfType(m3))) // now previously neuntral mutations can contribute to local adapt!
+         mut.setSelectionCoeff(rgamma(1, deff/N, 2));
+	p1.setMigrationRates(p2, m/N);
+	p2.setMigrationRates(p1, m/N);
+}
+
+// wait xN gen after split
+s1 101 late() {
+	sim.treeSeqOutput(path+ format("%.1f", (sim.generation-10*N)/N ) + "N_sim_"+SIM+"_RAND_"+RAND+".trees");
+	//cat(path+ format("%.1f", (sim.generation-10*N)/N ) + "N_sim_"+SIM+"_RAND_"+RAND+".trees");
+}
+
+//after split, m2 are beneficial in p1 and neutral in p2
+s4 100: fitness(m2,p2) {
+	return 1.0;
+}
+//opposite for m3
+s5 100: fitness(m3,p1) {
+	return 1.0;
+}

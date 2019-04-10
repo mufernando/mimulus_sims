@@ -1,0 +1,63 @@
+// set up a simple neutral simulation
+initialize() {
+	/*
+	defineConstant("SIM", "teste");
+	//defineConstant("path","/Users/murillo/Drive/phd/w19/rotation/trees/");
+	defineConstant("N", 1000);
+	defineConstant("mu", 0.1e-8);
+	defineConstant("r", 1.5e-8);
+	defineConstant("ndeff", 0);
+	defineConstant("pdeff", 1000);
+	defineConstant("pprop", 0.005);
+	defineConstant("nprop", 0);
+	defineConstant("L", 21e6); // total chromosome length
+	defineConstant("L0", 7e6); // between genes
+	defineConstant("L1", 7e6); // gene length
+	defineConstant("m", 0); // gene length
+	defineConstant("RAND", 123); // random identifier
+	
+	//-d path='/Users/murillo/Drive/phd/w19/rotation/trees/' -d SIM=teste -d N=1000 -d mu=0.1e-8 -d r=1.5e-8 -d deff=10 -d L=5e7 -d L0=3e6 -d L1=2e6
+	*/
+
+	defineConstant("path","/tmp/");
+
+	initializeTreeSeq();
+
+	initializeMutationRate(mu);
+	initializeMutationType("m1", 0.5, "g", -(ndeff/N),2); 
+	initializeMutationType("m2", 0.5, "g", (pdeff/N),2);
+	initializeRecombinationRate(r, L-1);
+	initializeGenomicElementType("g2", c(m1,m2), c(nprop,pprop));
+	if (mu > 0) {
+		for (start in seq(from=0, to=L, by=(L0+L1)))
+			initializeGenomicElement(g2, start, (start+L1)-1);
+	} else {
+		initializeGenomicElement(g2, 0, L-1);
+	}
+}
+
+// create a population of N individuals
+//schedule sampling times depending on N
+1 {
+	sim.addSubpop("p1", N);
+	sim.rescheduleScriptBlock(s0, 10*N, 10*N); // subpopsplit
+	t = c(seq(0,2,by=0.4),seq(4,10,by=2));
+	t = (t*N)+(10*N);
+	t[0] = t[0]+1;
+	sim.rescheduleScriptBlock(s1, generations=asInteger(t));
+}
+
+// burn in for 10N gen
+// split into two subpops with N
+
+s0 100 {
+	sim.addSubpopSplit(2, N, 1);
+	p1.setMigrationRates(p2, m/N);
+	p2.setMigrationRates(p1, m/N);
+}
+
+// wait xN gen after split
+s1 101 late() {
+	sim.treeSeqOutput(path+ format("%.1f", (sim.generation-10*N)/N ) + "N_sim_"+SIM+"_RAND_"+RAND+".trees");
+	//cat(path+ format("%.1f", (sim.generation-10*N)/N ) + "N_sim_"+SIM+"_RAND_"+RAND+".trees");
+}
