@@ -12,12 +12,12 @@ module load python3 tskit SLiM
 
 ran=$(od -N 4 -t uL -An /dev/urandom | tr -d " ")
 
-slim -m -t -d "SIM=${1}" -d N=${2} -d mu=${3} -d r=${4} -d L=${5} -d L0=${6} -d L1=${7} -d RAND=$ran -d m=${8} -d ndeff=${10} -d nprop=${9} -d pdeff=${12} -d pprop=${11} /home/murillor/projects/param_expl/mimulus_dual.slim
+slim -m -t -d "SIM=${1}" -d N=${2} -d mu=${3} -d r=${4} -d L=${5} -d L0=${6} -d L1=${7} -d RAND=$ran -d m=${8} -d ndeff=${10} -d nprop=${9} -d pdeff=${12} -d pprop=${11} /home/murillor/projects/mimulus_sims/mimulus_dual.slim
 
-if [ -d /home/murillor/projects/param_expl/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11} ]   # for file "if [-f /home/rama/file]"
+if [ -d /home/murillor/projects/mimulus_sims/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11} ]   # for file "if [-f /home/rama/file]"
 then
-    mv /tmp/*N_sim_"${1}"_RAND_"${ran}".trees /home/murillor/projects/param_expl/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}/
+    mv /tmp/*N_sim_"${1}"_RAND_"${ran}".trees /home/murillor/projects/mimulus_sims/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}/
 else
-    mkdir /home/murillor/projects/param_expl/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}
-    mv /tmp/*N_sim_"${1}"_RAND_"${ran}".trees /home/murillor/projects/param_expl/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}
+    mkdir /home/murillor/projects/mimulus_sims/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}
+    mv /tmp/*N_sim_"${1}"_RAND_"${ran}".trees /home/murillor/projects/mimulus_sims/N_${2}_mu_${3}_r_${4}_L_${5}_L0_${6}_L1_${7}_m_${8}_ndeff_${10}_nprop_${9}_pdeff_${12}_pprop_${11}
 fi
