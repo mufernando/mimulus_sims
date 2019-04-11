@@ -2,7 +2,7 @@
 #SBATCH --partition=kern,long,longfat
 #SBATCH --job-name=onesim
 #SBATCH --time=10-00:00:00
-#SBATCH --mem 40G
+#SBATCH --mem 32G
 #SBATCH --output=one.out         ### File in which to store job output
 #SBATCH --error=one.err          ### File in which to store job error messages
 

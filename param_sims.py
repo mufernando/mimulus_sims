@@ -25,7 +25,7 @@ L = str(21000000)
 L0 = str(7000000)
 L1 = str(7000000)
 m=str(0)
-nsim=10
+nsim=5
 
 for row in params:
     for sim in range(nsim):
