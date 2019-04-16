@@ -13,9 +13,9 @@ initialize() {
 	defineConstant("L", 21e6); // total chromosome length
 	defineConstant("L0", 7e6); // between genes
 	defineConstant("L1", 7e6); // gene length
-	defineConstant("m", 0); // gene length
+	defineConstant("m", 0); // migration
 	defineConstant("RAND", 123); // random identifier
-	
+
 	//-d path='/Users/murillo/Drive/phd/w19/rotation/trees/' -d SIM=teste -d N=1000 -d mu=0.1e-8 -d r=1.5e-8 -d deff=10 -d L=5e7 -d L0=3e6 -d L1=2e6
 	*/
 
@@ -24,7 +24,7 @@ initialize() {
 	initializeTreeSeq();
 
 	initializeMutationRate(mu);
-	initializeMutationType("m1", 0.5, "g", -(ndeff/N),2); 
+	initializeMutationType("m1", 0.5, "g", -(ndeff/N),2);
 	initializeMutationType("m2", 0.5, "g", (pdeff/N),2);
 	initializeRecombinationRate(r, L-1);
 	initializeGenomicElementType("g2", c(m1,m2), c(nprop,pprop));
