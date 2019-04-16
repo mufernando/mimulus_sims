@@ -10,7 +10,7 @@ module load cuda/9.0
 module use /projects/apps/shared/modulefiles/
 
 
-python3 /home/murillor/projects/mimulus_sims/simple/overlay.py ${1} "other" "lala"
+python3 /home/murillor/projects/mimulus_sims/overlay.py ${1} "other" "lala"
 
 
 #find $PWD -type f -name "*.trees" -exec sbatch --open-mode=append run_overlay.srun {} \;
