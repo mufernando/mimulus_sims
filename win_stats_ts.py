@@ -76,7 +76,7 @@ def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N):
     pickle.dump(fst, output)
     output.close()
 
-    if(0) {
+    if (0):
         plt.subplot(2, 1, 1)
         plt.plot(np.transpose(pis[0,0,:]), "-")
         plt.title('0N after split')
@@ -89,7 +89,7 @@ def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N):
         plt.tight_layout()
         plt.savefig(path+foname+'_landscape.pdf')
         plt.close()
-    }
+
 
     s2 = timer()
     print(("Saving stats and plots to file... Time elapsed (min):"+str(round((s2-s1)/60,3))), flush=True)
