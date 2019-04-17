@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --partition=kern,long,longfat
+#SBATCH --job-name=winstats
+#SBATCH --time=12:00:00
+#SBATCH --mem 32G
+#SBATCH --output=pi_div.out         ### File in which to store job output
+#SBATCH --error=pi_div.err          ### File in which to store job error messages
+
+module load cuda/9.0
+module use /projects/apps/shared/modulefiles/
+
+#module load python3 tskit SLiM
+
+python3 /home/murillor/projects/mimulus_sims/win_stats_ts.py "/home/murillor/projects/mimulus_sims/${1}/" ${2} ${3} ${4}
+
+#folders=( N_10000_mu_0.0_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_0.0_nprop_0.0_pdeff_0.0_pprop_0.0 N_10000_mu_1.00e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.1_pdeff_0.0_pprop_0.0 N_10000_mu_1.00e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.1_pdeff_0.0_pprop_0.0 N_10000_mu_1.00e-11_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_0.0_nprop_0.0_pdeff_100.0_pprop_0.001 N_10000_mu_1.01e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.1_pdeff_100.0_pprop_0.001 N_10000_mu_1.01e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.1_pdeff_100.0_pprop_0.001 N_10000_mu_1.05e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.1_pdeff_100.0_pprop_0.005 N_10000_mu_1.05e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.1_pdeff_100.0_pprop_0.005 N_10000_mu_1.11e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_10.0 N_10000_mu_1.11e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_100.0 N_10000_mu_1.11e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_10.0 N_10000_mu_1.11e-09_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_100.0 N_10000_mu_1.50e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_100.0 N_10000_mu_1.50e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_100.0 N_10000_mu_3.00e-11_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_100.0 N_10000_mu_3.00e-11_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_100.0 N_10000_mu_5.00e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.05_pdeff_0.0_pprop_0.0 N_10000_mu_5.00e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.05_pdeff_0.0_pprop_0.0 N_10000_mu_5.00e-11_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_0.0_nprop_0.0_pdeff_100.0_pprop_0.005 N_10000_mu_5.10e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.05_pdeff_100.0_pprop_0.001 N_10000_mu_5.10e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.05_pdeff_100.0_pprop_0.001 N_10000_mu_5.50e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_100.0_nprop_0.05_pdeff_100.0_pprop_0.005 N_10000_mu_5.50e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0_ndeff_10.0_nprop_0.05_pdeff_100.0_pprop_0.005 N_10000_mu_5.56e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_10.0 N_10000_mu_5.56e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_0.1_deff_100.0 N_10000_mu_5.56e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_10.0 N_10000_mu_5.56e-10_r_2e-08_L_21000000_L0_7000000_L1_7000000_m_1_deff_100.0 )
+#for fo in  "${folders[@]}"; do sbatch --open-mode=append run_winstats.srun $fo 500000 21000000 5; done
