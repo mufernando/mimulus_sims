@@ -52,9 +52,9 @@ def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N):
             print(("Calculating windowed Pi/TajD... Time elapsed (min):"+str(round((s2-s1)/60,3))), flush=True)
             s1=timer()
             for k in range(len(combs)):
-                dxy, windows, n_bases, counts = allel.windowed_divergence(pos, acs[combs[k][0]], acs[combs[k][0]], size=win_size, start=1, stop=L)
+                dxy, windows, n_bases, counts = allel.windowed_divergence(pos, acs[combs[k][0]], acs[combs[k][1]], size=win_size, start=1, stop=L)
                 div[t,i,k,:] = dxy
-                fstat, windows, counts = allel.windowed_hudson_fst(pos, acs[combs[k][0]], acs[combs[k][0]], size=win_size, start=1, stop=L)
+                fstat, windows, counts = allel.windowed_hudson_fst(pos, acs[combs[k][0]], acs[combs[k][1]], size=win_size, start=1, stop=L)
                 fst[t,i,k,:] = fstat
             s2 = timer()
             print(("Calculating windowed Dxy and Fst... Time elapsed (min):"+str(round((s2-s1)/60,3))), flush=True)
