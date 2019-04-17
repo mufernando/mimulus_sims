@@ -46,7 +46,7 @@ def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N):
             for j in range(n_pops):
                 pi, windows, n_bases, counts = allel.windowed_diversity(pos, acs[j], size=win_size, start=1, stop=L)
                 pis[t,i,j,:] = pi
-                D, windows, counts = allel.windowed_tajima_d(pocs, acs[j], size=win_size, start=1, stop=L)
+                D, windows, counts = allel.windowed_tajima_d(pos, acs[j], size=win_size, start=1, stop=L)
                 tajd[t,i,j,:] = D
             s2 = timer()
             print(("Calculating windowed Pi/TajD... Time elapsed (min):"+str(round((s2-s1)/60,3))), flush=True)
