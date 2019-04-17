@@ -11,19 +11,19 @@ import sys
 import itertools
 from timeit import default_timer as timer
 
-def ac_from_ts(ts, n_pops):
+def ac_from_ts(ts, n_pops, N):
     '''
     This function takes a tree sequence,  and returns tuple with a list of allele counts for each subpop and the positions'''
     acs=[]
     hap = allel.HaplotypeArray(ts.genotype_matrix())
     geno = hap.to_genotypes(ploidy=2)
     for i in range(n_pops):
-        subpop_indexes = list(ts.samples(population=i))
+        subpop_indexes = list(np.arange(i*N,(i+1)*N))
         acs.append(geno.count_alleles(subpop=subpop_indexes))
     pos=np.array([s.position for s in ts.sites()])
     return(acs, pos)
 
-def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L):
+def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N):
     foname = os.path.basename(path[:-1])
     print(("Base filename:"+foname), flush=True)
     x = np.arange(n_pops)
@@ -42,7 +42,7 @@ def win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L):
             ts = pyslim.load(filename).simplify()
             #print(("Pi0: ", ts.pairwise_diversity(samples=ts.samples(population=0)),"Pi1: ", ts.pairwise_diversity(samples=ts.samples(population=1))), flush=True)
             s1 = timer()
-            acs, pos = ac_from_ts(ts, n_pops)
+            acs, pos = ac_from_ts(ts, n_pops, N)
             for j in range(n_pops):
                 pi, windows, n_bases, counts = allel.windowed_diversity(pos, acs[j], size=win_size, start=1, stop=L)
                 pis[t,i,j,:] = pi
@@ -102,6 +102,7 @@ n_sims=int(sys.argv[4])
 
 neut_mut = 1e-8
 n_pops = 2
+N=10000
 
 #T=np.arange(0.1,1.1,step=0.1)
 #T=np.concatenate([T,np.array([2.0])])
@@ -113,7 +114,7 @@ T = [float("%.1f"%t) for t in T]
 s2 = timer()
 print(("Initializing... Time elapsed (min):"+str(round((s2-s1)/60,3))), flush=True)
 
-win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L)
+win_pi_sims(path, neut_mut, n_pops, n_sims, T, win_size, L, N)
 
 """
 
