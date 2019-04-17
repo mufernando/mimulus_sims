@@ -18,7 +18,7 @@ def ac_from_ts(ts, n_pops):
     hap = allel.HaplotypeArray(ts.genotype_matrix())
     geno = hap.to_genotypes(ploidy=2)
     for i in range(n_pops):
-        subpop_indexes = list(ts.samples(population=i)))
+        subpop_indexes = list(ts.samples(population=i))
         acs.append(geno.count_alleles(subpop=subpop_indexes))
     pos=np.array([s.position for s in ts.sites()])
     return(acs, pos)
