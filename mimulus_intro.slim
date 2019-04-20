@@ -19,7 +19,7 @@ initialize() {
 	initializeTreeSeq();
 
 	initializeMutationRate(mu);
-	initializeMutationType("m1", 0.5, "g", (-deff/N), 2); //anc mutation beneficial
+	initializeMutationType("m1", 0.5, "g", (-deff/N), 2); //anc mutation deleterious
 	initializeMutationType("m2", 0.5, "f", 0); //BDM incompat pop2 to pop1
 	initializeMutationType("m3", 0.5, "f", 0); //BDM incompat pop1 to pop2
 	initializeRecombinationRate(r, L-1);
